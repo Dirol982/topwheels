@@ -210,15 +210,30 @@
     lb.addEventListener('click', function (e) { if (e.target === lb || e.target.hasAttribute('data-close')) lb.close(); });
   }
 
+  /* ---------- Защита: правый клик, выделение, копирование, перетаскивание ---------- */
+  var block = function (e) {
+    var t = e.target;
+    if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA')) return;
+    e.preventDefault();
+  };
+  ['contextmenu', 'selectstart', 'copy', 'cut', 'dragstart'].forEach(function (ev) {
+    document.addEventListener(ev, block);
+  });
+  document.addEventListener('keydown', function (e) {
+    var k = (e.key || '').toLowerCase();
+    var mod = e.ctrlKey || e.metaKey;
+    if ((mod && ['u', 's', 'c', 'a', 'p'].indexOf(k) !== -1) ||
+        (mod && e.shiftKey && ['i', 'j', 'c'].indexOf(k) !== -1) || k === 'f12') {
+      e.preventDefault();
+    }
+  });
+
   /* ---------- Копирование координат ---------- */
   document.querySelectorAll('[data-copy]').forEach(function (btn) {
     btn.addEventListener('click', function () {
       var text = btn.getAttribute('data-copy');
       var done = function () { btn.textContent = 'Скопировано'; setTimeout(function () { btn.textContent = 'Скопировать'; }, 1800); };
-      var fallback = function () {
-        var r = document.createRange(); r.selectNodeContents($('coords'));
-        var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
-      };
+      var fallback = function () { btn.textContent = 'Не удалось'; setTimeout(function () { btn.textContent = 'Скопировать'; }, 1800); };
       try { navigator.clipboard.writeText(text).then(done, fallback); } catch (e) { fallback(); }
     });
   });
