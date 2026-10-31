@@ -62,6 +62,17 @@
     update(false);
   }
 
+  // Виджет YClients открывает запись поверх сайта, но работает только на домене,
+  // разрешённом в кабинете YClients (topwheels.by). На других адресах, например
+  // github.io, кнопки .ms_booking просто открывают запись в новой вкладке.
+  if (/(^|\.)topwheels\.by$/.test(location.hostname)) {
+    var yc = document.createElement('script');
+    yc.src = 'https://w1313611.yclients.com/widgetJS';
+    yc.charset = 'UTF-8';
+    yc.async = true;
+    document.body.appendChild(yc);
+  }
+
   // Шапка: линия после прокрутки
   var top = document.querySelector('.top');
   var onScroll = function () { top.classList.toggle('is-scrolled', window.scrollY > 8); };

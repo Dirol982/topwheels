@@ -332,6 +332,9 @@ legend { padding: 0; margin-bottom: 14px; }
   .dock__book { background: var(--accent); color: var(--accent-ink); }
 }
 
+/* Свою плавающую кнопку YClients скрываем: запись есть в шапке, на первом экране и в мобильной панели */
+.yButton { display: none !important; }
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
   html { scroll-behavior: auto; }
