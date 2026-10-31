@@ -23,7 +23,9 @@ Settings → Pages → Source: **Deploy from a branch** → Branch: `main`, па
 ## Что где менять
 
 - **Цены шиномонтажа** — массивы `PRICES` в `assets/js/main.js` (за одно колесо, BYN) и таблицы в `index.html`.
-- **Онлайн-запись** — все кнопки ведут на YClients `https://n1313611.yclients.com`. Виджет YClients подключён внизу
-  `index.html` и открывает запись поверх сайта на всех элементах с классом `ms_booking`.
+- **Онлайн-запись** — все кнопки ведут на YClients `https://n1313611.yclients.com` и открывают запись в новой вкладке.
+  На домене topwheels.by `assets/js/main.js` дополнительно подключает виджет YClients, и запись открывается поверх сайта
+  (на github.io YClients его не пускает: «Недостаточно прав»). Если сайт будет на другом домене, добавьте его в кабинете
+  YClients в настройках виджета и в проверку `location.hostname` в `main.js`.
 - **Телефон, адрес, часы** — в `index.html` (разделы «Контакты», шапка, мобильная панель) и в блоке JSON-LD в `<head>`.
 - **Отзывы** — блок `#reviews` в `index.html`.
