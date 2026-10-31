@@ -103,22 +103,51 @@
     // Слой 2 (неподвижный): суппорт в фирменном оранжевом
     caliper = el('path', { fill: '#ff5600' }, svg);
 
-    // Слой 3 (вращается): спицы и ступица поверх суппорта
+    // Слой 3 (вращается): кованый «краб» — 5 спиц, каждая расходится двумя изогнутыми клешнями
+    var gs = el('linearGradient', { id: 'spoke', x1: '0', y1: '0', x2: '1', y2: '0' }, defs);
+    el('stop', { offset: '0', 'stop-color': '#5d5d5a' }, gs);
+    el('stop', { offset: '.42', 'stop-color': '#f2f2ef' }, gs);
+    el('stop', { offset: '.58', 'stop-color': '#c9c9c5' }, gs);
+    el('stop', { offset: '1', 'stop-color': '#3e3e3c' }, gs);
+    var gl = el('linearGradient', { id: 'lip', x1: '0', y1: '0', x2: '1', y2: '1' }, defs);
+    el('stop', { offset: '0', 'stop-color': '#ffffff' }, gl);
+    el('stop', { offset: '.35', 'stop-color': '#a9a9a6' }, gl);
+    el('stop', { offset: '.6', 'stop-color': '#efefec' }, gl);
+    el('stop', { offset: '1', 'stop-color': '#55554f' }, gl);
+
     spinB = el('g', { class: 'wheel__spin wheel__roll' }, svg);
     el('circle', { r: 100, fill: 'none' }, spinB);
     rimB = el('g', { class: 'wheel__rim' }, spinB);
     el('circle', { r: 100, fill: 'none' }, rimB);       // задаёт симметричную рамку для вращения
+    // полированная полка обода и болты составного диска
+    el('circle', { r: 96, fill: 'none', stroke: 'url(#lip)', 'stroke-width': 8 }, rimB);
+    el('circle', { r: 91.6, fill: 'none', stroke: '#1a1a1a', 'stroke-width': 1.2 }, rimB);
+    for (var k = 0; k < 30; k++) {
+      var q = k * 12 * Math.PI / 180;
+      el('circle', { cx: 95.6 * Math.cos(q), cy: 95.6 * Math.sin(q), r: 1.25, fill: '#2c2c2a' }, rimB);
+    }
+    var CLAW = 'M -7.5 -21 C -12 -40 -27 -58 -35.6 -83.8 A 91 91 0 0 1 -25.1 -87.5 ' +
+               'C -18 -70 -8 -56 0 -48 C 8 -56 18 -70 25.1 -87.5 A 91 91 0 0 1 35.6 -83.8 ' +
+               'C 27 -58 12 -40 7.5 -21 Z';
+    var RIDGE = 'M 0 -23 L 0 -44 M -2.5 -46.5 C -10 -58 -21 -72 -30.3 -85.8 M 2.5 -46.5 C 10 -58 21 -72 30.3 -85.8';
     for (var s = 0; s < 5; s++) {
       var sp = el('g', { transform: 'rotate(' + (s * 72) + ')' }, rimB);
-      el('path', { d: 'M -7 -20 L -11 -90 L -3 -91 L -1 -20 Z', fill: 'url(#metal)' }, sp);
-      el('path', { d: 'M 1 -20 L 3 -91 L 11 -90 L 7 -20 Z', fill: 'url(#metal)' }, sp);
+      el('path', { d: CLAW, fill: 'rgba(0,0,0,.45)', transform: 'translate(1.6 1.6)' }, sp);   // тень
+      el('path', { d: CLAW, fill: 'url(#spoke)', stroke: 'rgba(255,255,255,.35)', 'stroke-width': .6 }, sp);
+      el('path', { d: RIDGE, fill: 'none', stroke: 'rgba(255,255,255,.55)', 'stroke-width': .8, 'stroke-linecap': 'round' }, sp);
     }
-    el('circle', { r: 24, fill: 'url(#metal)' }, rimB);
-    el('circle', { r: 9, fill: '#111' }, rimB);
+    // ступица: кольцо, 5 болтов, колпак с фирменным акцентом
+    el('circle', { r: 25, fill: 'url(#metal)' }, rimB);
+    el('circle', { r: 25, fill: 'none', stroke: 'rgba(0,0,0,.5)', 'stroke-width': 1 }, rimB);
     for (var n = 0; n < 5; n++) {
-      var c = (n * 72 - 90) * Math.PI / 180;
-      el('circle', { cx: 16 * Math.cos(c), cy: 16 * Math.sin(c), r: 3, fill: '#2b2b2b' }, rimB);
+      var c = (n * 72 - 90 + 36) * Math.PI / 180;
+      el('circle', { cx: 18 * Math.cos(c), cy: 18 * Math.sin(c), r: 3.2, fill: '#1c1c1c' }, rimB);
+      el('circle', { cx: 18 * Math.cos(c), cy: 18 * Math.sin(c), r: 1.6, fill: '#8a8a86' }, rimB);
     }
+    el('circle', { r: 12, fill: '#0d0d0d', stroke: '#ff5600', 'stroke-width': 1.6 }, rimB);
+    var cap = el('text', { x: 0, y: 3.2, 'text-anchor': 'middle', 'font-size': 8.5, 'font-weight': 800,
+      'font-family': 'Unbounded, Arial Black, sans-serif', fill: '#f2f1ee', 'letter-spacing': '-.3' }, rimB);
+    cap.textContent = 'TW';
   }
   function arcPath(r1, r2, a1, a2) {
     var p = function (r, a) { a = a * Math.PI / 180; return (r * Math.cos(a)).toFixed(2) + ' ' + (r * Math.sin(a)).toFixed(2); };
