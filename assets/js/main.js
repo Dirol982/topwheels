@@ -196,6 +196,20 @@
     document.body.appendChild(yc);
   }
 
+  /* ---------- Галерея: просмотр фото ---------- */
+  var lb = $('lightbox'), lbImg = $('lightboxImg');
+  if (lb && typeof lb.showModal === 'function') {
+    document.querySelectorAll('.gal__item').forEach(function (item) {
+      item.addEventListener('click', function () {
+        var img = item.querySelector('img');
+        lbImg.src = item.getAttribute('data-full');
+        lbImg.alt = img.alt;
+        lb.showModal();
+      });
+    });
+    lb.addEventListener('click', function (e) { if (e.target === lb || e.target.hasAttribute('data-close')) lb.close(); });
+  }
+
   /* ---------- Копирование координат ---------- */
   document.querySelectorAll('[data-copy]').forEach(function (btn) {
     btn.addEventListener('click', function () {
