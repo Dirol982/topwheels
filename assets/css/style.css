@@ -102,7 +102,8 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
   display: flex; align-items: center; gap: .35em; margin-top: .12em;
   font-weight: 300; font-size: clamp(1.3rem, 5.4vw, 3.9rem); letter-spacing: -.01em; color: var(--muted);
 }
-.mega__dash { flex: 1; height: 2px; min-width: 24px; background: var(--accent); transform-origin: left; }
+.mega__l2 > span:first-child { white-space: nowrap; }
+.mega__dash { flex: 1; height: 2px; min-width: 24px; background: var(--accent); }
 
 .bento { display: grid; gap: var(--gap); }
 .tile { margin: 0; position: relative; background: var(--tile); border: 1px solid var(--line); padding: clamp(18px, 2vw, 28px); display: flex; flex-direction: column; gap: 10px; min-width: 0; transition: border-color .25s; }
@@ -343,8 +344,6 @@ legend { padding: 0; margin-bottom: 12px; }
 
 /* ---------- Анимации, привязанные к прокрутке (где браузер поддерживает) ---------- */
 @supports (animation-timeline: scroll()) {
-  .mega__dash { animation: dash linear both; animation-timeline: scroll(root); animation-range: 0 320px; }
-  @keyframes dash { from { transform: scaleX(.15); } to { transform: scaleX(1); } }
   .tile--hero img { animation: drift linear both; animation-timeline: view(); animation-range: exit -20% exit 100%; }
   @keyframes drift { to { transform: scale(1.12) translateY(4%); } }
   .calc__wheel { view-timeline: --wheel block; }
